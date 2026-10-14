@@ -3,15 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>My Game</title>
+  <title>Play the game</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Game page loaded</h1>
-  <canvas id="game" width="800" height="500"
-          style="border:1px solid black"></canvas>
+  <h1>Play the game</h1>
+  <p><a href="index.html">Back to the wiki page</a></p>
 
+  <div id="game" style="width:100%; max-width:860px; aspect-ratio:960 / 660; margin:1em auto; background:#12151c; overflow:hidden;"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.90.0/dist/phaser.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
-
-<script src="script.js"></script>

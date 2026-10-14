@@ -5,6 +5,7 @@ const WIDTH = COLS * TILE, HEIGHT = MAP_H + SHOP_H;
 const WAYPOINTS = [[0,2],[6,2],[6,8],[12,8],[12,3],[17,3],[17,10],[19,10]]; // [col,row] corners of the path
 const START_GOLD = 100, START_LIVES = 15, WAVE_CLEAR_BONUS = 20;
 const UPGRADE_EVERY = 4; // you pick an upgrade after every 4th wave
+const MAX_WAVES = 25;    // survive this many waves; the last one ends with the GRAND BOSS
 
 // Which way Barracks troops march along the path:
 //  -1 = up the path, towards where enemies enter (they meet enemies head-on)  <- default
@@ -32,6 +33,8 @@ const ENEMY_TYPES = {
   brood:  { name: "Brood",  hp: 4,   speed: 60,  reward: 30,  size: 34, color: 0x20b2aa, stroke: 0xffffff, lives: 2, dps: 6, spawns: 3 }, // bursts into 3 minions when killed
   minion: { name: "Minion", hp: 0.4, speed: 100, reward: 3,   size: 16, color: 0xd96ad9, stroke: 0x000000, lives: 1, dps: 3 },
   boss:   { name: "Boss",   hp: 14,  speed: 40,  reward: 120, size: 48, color: 0x1a1a1a, stroke: 0xff4444, lives: 5, dps: 16 },
+  // The final enemy. It also calls for help: every summonEvery ms it sends out summons minions.
+  grandboss: { name: "Grand Boss", hp: 40, speed: 30, reward: 500, size: 68, color: 0x8b0000, stroke: 0xffd700, lives: 99, dps: 30, summonEvery: 6000, summons: 2 },
 };
 
 // ---------- Upgrades offered every UPGRADE_EVERY waves (you pick 1 of 3 random ones) ----------
@@ -99,7 +102,7 @@ class Game extends Phaser.Scene {
     this.enemies = []; this.towers = []; this.bullets = [];
     this.occupied = new Set();
     this.waveList = []; this.spawned = 0; this.waveActive = false;
-    this.over = false; this.choosing = false;
+    this.over = false; this.won = false; this.overAt = 0; this.choosing = false;
     this.offered = []; this.upgradeObjs = []; this.cardRects = [];
     this.selected = 0;
     this.mods = { dmg: 1, rate: 1, range: 1, bounty: 1 }; // global upgrade multipliers
@@ -152,7 +155,8 @@ class Game extends Phaser.Scene {
       const j = Math.floor(Math.random() * (i + 1));
       [list[i], list[j]] = [list[j], list[i]];
     }
-    if (w % 5 === 0) add("boss", w / 5);                       // a boss closes every 5th wave
+    if (w % 5 === 0) add("boss", Math.min(w / 5, 3));          // a boss closes every 5th wave (at most 3)
+    if (w === MAX_WAVES) add("grandboss", 1);                  // the final wave ends with the GRAND BOSS
     return list;
   }
 
@@ -167,7 +171,7 @@ class Game extends Phaser.Scene {
     const counts = {};
     this.waveList.forEach((k) => { counts[k] = (counts[k] || 0) + 1; });
     const summary = Object.keys(counts).map((k) => `${counts[k]} ${ENEMY_TYPES[k].name}`).join(", ");
-    this.banner(`Wave ${this.wave}\n${summary}`);
+    this.banner(`${this.wave === MAX_WAVES ? "FINAL WAVE " : "Wave "}${this.wave}\n${summary}`, this.wave === MAX_WAVES ? 3500 : 1800);
     this.updateHud();
   }
 
@@ -210,7 +214,7 @@ class Game extends Phaser.Scene {
 
   // ----- Input -----
   onClick(p) {
-    if (this.over) { this.scene.restart(); return; }
+    if (this.over) { if (this.now - this.overAt > 700) this.scene.restart(); return; }   // click = play again
 
     if (this.choosing) {                                // upgrade cards
       for (let i = 0; i < this.cardRects.length; i++) {
@@ -318,6 +322,15 @@ class Game extends Phaser.Scene {
       const e = this.enemies[i];
       const slowed = time < e.slowUntil;
       if (slowed !== e.slowed) { e.slowed = slowed; e.rect.setFillStyle(slowed ? 0x8fdcff : e.def.color); }
+      if (e.def.summonEvery) {                         // Grand Boss: calls minions now and then
+        if (!e.nextSummon) e.nextSummon = time + e.def.summonEvery;
+        if (time >= e.nextSummon) {
+          e.nextSummon = time + e.def.summonEvery;
+          for (let k = 0; k < e.def.summons; k++) {
+            this.makeEnemy("minion", e.rect.x + (Math.random() - 0.5) * 30, e.rect.y + (Math.random() - 0.5) * 30, e.target, e.traveled);
+          }
+        }
+      }
       if (time < e.holdUntil) continue;                // blocked by a troop
       const speed = e.def.speed * (slowed ? e.slowFactor : 1);
       const t = center(...WAYPOINTS[e.target]);
@@ -429,6 +442,7 @@ class Game extends Phaser.Scene {
       this.waveActive = false;
       this.gold += WAVE_CLEAR_BONUS;
       this.updateHud();
+      if (this.wave >= MAX_WAVES) { this.victory(); return; }    // the Grand Boss is dead: you win!
       if (this.wave % UPGRADE_EVERY === 0) {
         this.time.delayedCall(800, () => this.showUpgrades());
       } else {
@@ -526,9 +540,10 @@ class Game extends Phaser.Scene {
   updateHud() {
     const m = this.mods;
     const next = Math.ceil(Math.max(this.wave, 1) / UPGRADE_EVERY) * UPGRADE_EVERY;
+    const upLine = next < MAX_WAVES ? `Next upgrade after wave ${next}` : `Final wave: defeat the Grand Boss!`;
     this.hud.setText(
-      `Gold: ${this.gold}   Lives: ${Math.max(this.lives, 0)}   Wave: ${this.wave}\n` +
-      `Next upgrade after wave ${next}\n` +
+      `Gold: ${this.gold}   Lives: ${Math.max(this.lives, 0)}   Wave: ${this.wave}/${MAX_WAVES}\n` +
+      upLine + "\n" +
       `Dmg +${Math.round((m.dmg - 1) * 100)}%  Speed +${Math.round((1 / m.rate - 1) * 100)}%  ` +
       `Range +${Math.round((m.range - 1) * 100)}%  Gold +${Math.round((m.bounty - 1) * 100)}%`
     );
@@ -543,8 +558,18 @@ class Game extends Phaser.Scene {
     this.time.delayedCall(ms, () => t.destroy());
   }
 
+  victory() {
+    this.over = true; this.won = true; this.overAt = this.now;
+    this.time.removeAllEvents();
+    this.add.text(WIDTH / 2, MAP_H / 2,
+      `VICTORY!\nYou defeated the Grand Boss\nand survived all ${MAX_WAVES} waves\n\n go back to the wiki page to play again!`,
+      { fontFamily: "monospace", fontSize: "34px", color: "#ffe066", align: "center",
+        backgroundColor: "#000000dd", padding: { x: 24, y: 16 } }
+    ).setOrigin(0.5).setDepth(40);
+  }
+
   gameOver() {
-    this.over = true;
+    this.over = true; this.overAt = this.now;
     this.time.removeAllEvents();
     this.add.text(WIDTH / 2, MAP_H / 2,
       `GAME OVER\nYou reached wave ${this.wave}\nClick to restart`,
