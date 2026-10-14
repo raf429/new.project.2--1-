@@ -1,36 +1,75 @@
+
 <!DOCTYPE html>
+
+<!-- The html element contains the entire webpage -->
 <html lang="en">
+
 <head>
+  <!-- Sets the character encoding so special characters display correctly -->
   <meta charset="UTF-8">
+
+  <!-- Helps the website fit different screen sizes, including mobile phones -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Sets the title displayed in the browser tab -->
   <title>Tower defense - Tower Defense Wiki</title>
+
+  <!-- Connects this HTML page to the CSS file that controls its appearance -->
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+
+<!-- Main container that groups the sidebar and page content -->
 <div class="layout">
 
+  <!-- SIDEBAR: contains the logo and navigation links -->
   <nav class="sidebar">
+
+    <!-- Website logo; clicking it takes the visitor to the main page -->
     <a class="logo" href="index.html">Tower Defense<span>Wiki</span></a>
+
+    <!-- Navigation menu -->
     <div class="portlet">
       <h3>Navigation</h3>
       <ul>
-      <li><a href="index.html" class="active">Main page</a></li>
+        <!-- Link to the main page; active identifies the current page for CSS styling -->
+        <li><a href="index.html" class="active">Main page</a></li>
       </ul>
     </div>
+
+    <!-- Section containing the link to play the game -->
     <div class="portlet">
       <h3>Play</h3>
       <a class="play-link" href="play.html">Play the game</a>
     </div>
+
   </nav>
 
+  <!-- MAIN CONTENT: contains the information displayed on the page -->
   <main class="content">
 
+    <!-- Main heading of the webpage -->
     <h1>Tower defense</h1>
+
+    <!-- Short description displayed below the main heading -->
     <p class="tagline">From Tower Defense Wiki, my project about the genre and its game</p>
 
+    <!-- INFOBOX: a table containing basic information about the game -->
     <table class="infobox">
+
+      <!-- Caption gives the table a title; br starts a new line and small makes the subtitle smaller -->
       <caption>Tower Defense<br><small>(the game made for this project)</small></caption>
-      <tr><td colspan="2" class="center"><a class="button" href="play.html">Play now</a></td></tr>
+
+      <!-- colspan="2" makes this cell span two columns -->
+      <tr>
+        <td colspan="2" class="center">
+          <!-- Link styled like a button using the CSS class button -->
+          <a class="button" href="play.html">Play now</a>
+        </td>
+      </tr>
+
+      <!-- Each tr creates a table row; th is a heading cell and td is a data cell -->
       <tr><th>Type</th><td>Browser game</td></tr>
       <tr><th>Genre</th><td>Tower defense</td></tr>
       <tr><th>Built with</th><td>HTML, CSS, JavaScript and the Phaser 3 library</td></tr>
@@ -38,92 +77,118 @@
       <tr><th>Enemies</th><td>6 types</td></tr>
       <tr><th>Upgrades</th><td>One of three, chosen every 4 waves</td></tr>
       <tr><th>Start</th><td>100 gold, 15 lives</td></tr>
+
     </table>
 
+    <!-- INTRODUCTION: explains what the tower defense genre is -->
     <p><b>Tower defense</b> is a subgenre of strategy video games in which the player defends a base or
     territory against waves of enemies by placing defensive structures, called <em>towers</em>, along or near the
     enemies' route. Defeating enemies earns in-game currency, which the player spends on more towers and upgrades,
     while enemies that get through usually cost the player lives.</p>
 
+    <!-- Introduces the purpose of this wiki and links to the game page -->
     <p>This wiki explains the genre and documents the browser game made for this project. You can try the game on the
-    <a href="play.html">Play</a> page.
-   
+    <a href="play.html">Play</a> page.</p>
 
-    <div class="toc"><strong>Contents</strong>
-<ol>
-<li><a href="#gameplay">Gameplay</a></li>
-<li><a href="#history">History</a></li>
-<li><a href="#notable">Notable games</a></li>
-<li><a href="#this-game">This project's game</a></li>
-<li><a href="#see-also">See also</a></li>
-<li><a href="#references">References</a></li>
-</ol></div>
+    <!-- TABLE OF CONTENTS: links to sections further down this page -->
+    <div class="toc">
+      <strong>Contents</strong>
 
+      <!-- An ordered list automatically numbers the contents -->
+      <ol>
+        <!-- Each href beginning with # links to an element with the matching id -->
+        <li><a href="#gameplay">Gameplay</a></li>
+        <li><a href="#history">History</a></li>
+        <li><a href="#notable">Notable games</a></li>
+        <li><a href="#this-game">This project's game</a></li>
+        <li><a href="#see-also">See also</a></li>
+        <li><a href="#references">References</a></li>
+      </ol>
+    </div>
+
+    <!-- GAMEPLAY SECTION: explains the basic rules of tower defense games -->
     <h2 id="gameplay">Gameplay</h2>
+
     <p>In a typical tower defense game, enemies travel in waves towards the player's base. The player does not control
     the enemies or, usually, the towers once they are built. Instead the decisions are <em>where</em> to place towers,
     <em>which kind</em> to build and <em>when</em> to spend or save currency.<sup><a href="#ref1">[1]</a></sup></p>
+
+    <!-- Unordered list of common tower defense mechanics -->
     <p>Common elements include:</p>
     <ul>
-      <li><b>Waves</b> &ndash; groups of enemies, usually with a set number and type per wave, that get harder over time.</li>
-      <li><b>Towers</b> &ndash; defences with different ranges, damage and fire rates. Some slow enemies or damage an area.</li>
-      <li><b>Currency</b> &ndash; earned by defeating enemies and spent on building and upgrading towers.</li>
-      <li><b>Lives</b> &ndash; each enemy that reaches the end of the route costs the player lives. At zero, the game is lost.</li>
-      <li><b>Mazing</b> &ndash; in games where towers block the way, the tactic of building a long, winding path of towers
+      <li><b>Waves</b> – groups of enemies, usually with a set number and type per wave, that get harder over time.</li>
+      <li><b>Towers</b> – defences with different ranges, damage and fire rates. Some slow enemies or damage an area.</li>
+      <li><b>Currency</b> – earned by defeating enemies and spent on building and upgrading towers.</li>
+      <li><b>Lives</b> – each enemy that reaches the end of the route costs the player lives. At zero, the game is lost.</li>
+      <li><b>Mazing</b> – in games where towers block the way, the tactic of building a long, winding path of towers
       so that enemies must travel further.<sup><a href="#ref1">[1]</a></sup></li>
     </ul>
 
+    <!-- HISTORY SECTION: describes how the genre developed over time -->
     <h2 id="history">History</h2>
+
+    <!-- Subsection about games that influenced the genre -->
     <h3 id="precursors">Precursors</h3>
     <p>Earlier arcade and home games such as <em>Space Invaders</em> (1978) and <em>Missile Command</em> (1980) already
     centred on defending a position against waves of attackers, and contained ideas the genre later built on.
     <em>Rampart</em> (1990) is generally considered to have established the prototypical tower defense game, with
     player-placed defences and separate build, defend and repair phases.<sup><a href="#ref1">[1]</a></sup></p>
 
+    <!-- Subsection about tower defense maps created by players -->
     <h3 id="custom-maps">Custom maps</h3>
     <p>In the early 2000s the genre spread through scenarios made by players for real-time strategy games. Early
     examples for <em>StarCraft: Brood War</em> were <em>Turret Defense</em> (May 2000) and <em>Sunken Defense</em>
     (November 2001). <em>Warcraft III</em> (2002) added role-playing elements to such scenarios, and
     <em>Element TD</em> and <em>Gem Tower Defense</em> (2006) were built with its World Editor.<sup><a href="#ref1">[1]</a></sup></p>
 
+    <!-- Subsection about the popularity of browser-based games -->
     <h3 id="browser-boom">The browser boom</h3>
     <p>From 2007, independent developers using Adobe Flash and the arrival of smartphone app stores helped the genre
     grow quickly. <em>Desktop Tower Defense</em> (March 2007) and <em>Bloons Tower Defense</em> (2007) were early
     browser hits, and <em>Plants vs. Zombies</em> (May 2009) became a highly popular series on mobile devices.<sup><a href="#ref1">[1]</a></sup></p>
 
+    <!-- Subsection about more recent tower defense games -->
     <h3 id="modern">Modern era</h3>
     <p><em>Kingdom Rush</em> (2011) sold more than seventeen million copies across the App Store and Play Store.
     Other games mixed the genre with action, such as <em>Dungeon Defenders</em> (2010), which used a third-person view,
-    and <em>Anomaly: Warzone Earth</em> (2011), which introduced &ldquo;reverse tower defense&rdquo; in which the player
+    and <em>Anomaly: Warzone Earth</em> (2011), which introduced “reverse tower defense” in which the player
     attacks protected bases.<sup><a href="#ref1">[1]</a></sup></p>
 
+    <!-- NOTABLE GAMES SECTION: a table comparing important games -->
     <h2 id="notable">Notable games</h2>
-    <div class="table-wrap"><table class="wikitable">
-<tr><th>Game</th><th>Year</th><th>Why it matters</th></tr>
-<tr><td>Rampart</td><td class="num"><span>1990</span></td><td>Generally considered the prototype of the genre: player-placed defences and separate build, defend and repair phases.</td></tr>
-<tr><td>Turret Defense (<em>StarCraft: Brood War</em> map)</td><td class="num"><span>2000</span></td><td>One of the early tower defense scenarios made by players with a strategy game's map tools.</td></tr>
-<tr><td>Element TD (<em>Warcraft III</em> map)</td><td class="num"><span>2006</span></td><td>Created with the Warcraft III World Editor, alongside Gem Tower Defense.</td></tr>
-<tr><td>Desktop Tower Defense</td><td class="num"><span>2007</span></td><td>An early browser hit that won an Independent Games Festival award.</td></tr>
-<tr><td>Bloons Tower Defense</td><td class="num"><span>2007</span></td><td>Began a long-running multi-platform series.</td></tr>
-<tr><td>Plants vs. Zombies</td><td class="num"><span>2009</span></td><td>Became a highly popular series on mobile devices.</td></tr>
-<tr><td>Kingdom Rush</td><td class="num"><span>2011</span></td><td>Sold more than seventeen million copies across the App Store and Play Store.</td></tr>
-<tr><td>Anomaly: Warzone Earth</td><td class="num"><span>2011</span></td><td>Introduced &ldquo;reverse tower defense&rdquo;, where the player attacks protected enemy bases.</td></tr>
-<tr><td>Bloons TD 6</td><td class="num"><span>2018</span></td><td>A later entry in the Bloons series.</td></tr>
-</table></div>
 
+    <!-- This wrapper may allow the table to scroll on narrow screens, depending on the CSS -->
+    <div class="table-wrap">
+      <table class="wikitable">
+
+        <!-- Column headings for the table -->
+        <tr><th>Game</th><th>Year</th><th>Why it matters</th></tr>
+
+        <!-- Each row contains a game's name, release year and significance -->
+        <tr><td>Rampart</td><td class="num">1990</td><td>Generally considered the prototype of the genre: player-placed defences and separate build, defend and repair phases.</td></tr>
+        <tr><td>Turret Defense (<em>StarCraft: Brood War</em> map)</td><td class="num">2000</td><td>One of the early tower defense scenarios made by players with a strategy game's map tools.</td></tr>
+        <tr><td>Element TD (<em>Warcraft III</em> map)</td><td class="num">2006</td><td>Created with the Warcraft III World Editor, alongside Gem Tower Defense.</td></tr>
+        <tr><td>Desktop Tower Defense</td><td class="num">2007</td><td>An early browser hit that won an Independent Games Festival award.</td></tr>
+        <tr><td>Bloons Tower Defense</td><td class="num">2007</td><td>Began a long-running multi-platform series.</td></tr>
+        <tr><td>Plants vs. Zombies</td><td class="num">2009</td><td>Became a highly popular series on mobile devices.</td></tr>
+        <tr><td>Kingdom Rush</td><td class="num">2011</td><td>Sold more than seventeen million copies across the App Store and Play Store.</td></tr>
+        <tr><td>Anomaly: Warzone Earth</td><td class="num">2011</td><td>Introduced “reverse tower defense”, where the player attacks protected enemy bases.</td></tr>
+        <tr><td>Bloons TD 6</td><td class="num">2018</td><td>A later entry in the Bloons series.</td></tr>
+
+      </table>
+    </div>
+
+    <!-- THIS PROJECT'S GAME: describes the game developed for this website -->
     <h2 id="this-game">This project's example game</h2>
+
     <p>The game on this site is a tower defense game written in JavaScript with the Phaser 3 library, so it runs
     directly in a web browser. The player starts with 100 gold and 15 lives and defends against endless,
     increasingly tough waves. Enemies follow a fixed path, so there is no mazing; strategy comes from tower choice,
     placement and timing instead.</p>
-    <ul>
-      <li><a href="towers.html">Towers</a> &ndash; 5 types, including area damage, slowing and marching troops.</li>
-      <li><a href="enemies.html">Enemies</a> &ndash; 6 types, including a brood that bursts into three minions and a boss every fifth wave.</li>
-      <li><a href="upgrades.html">Upgrades and strategy</a> &ndash; choose one of three upgrades every 4 waves.</li>
-    </ul>
+
+
+    <!-- Button-style link that takes the visitor to the game -->
     <p><a class="button" href="play.html">&#9654; Play the game</a></p>
-
-
 
   </main>
 
@@ -131,7 +196,6 @@
 
 </body>
 </html>
-
 
 
     
