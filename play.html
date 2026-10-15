@@ -1,18 +1,27 @@
 <!doctype html>
+<!-- play.html: the page where the game runs. -->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <!-- Makes the page fit the screen width on phones -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Play the game</title>
+  <!-- The stylesheet that gives every page of the wiki the same look -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <h1>Play the game</h1>
   <p><a href="index.html">Back to the wiki page</a></p>
 
+  <!-- The box the game appears in. script.js tells Phaser to use the element with id="game".
+       The inline style keeps the box 860px wide at most, with the same shape as the game
+       (aspect-ratio 960 / 660) and a dark background until the game has loaded. -->
   <div id="game" style="width:100%; max-width:860px; aspect-ratio:960 / 660; margin:1em auto; background:#12151c; overflow:hidden;"></div>
 
+  <!-- ORDER MATTERS: Phaser (the game library, loaded from the internet) must come first,
+       because script.js needs it. If these two lines are swapped you get "Phaser is not defined". -->
   <script src="https://cdn.jsdelivr.net/npm/phaser@3.90.0/dist/phaser.min.js"></script>
+  <!-- Our own game code -->
   <script src="script.js"></script>
 </body>
 </html>
