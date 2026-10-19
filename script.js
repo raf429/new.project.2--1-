@@ -3,55 +3,120 @@
 // picks an upgrade every 4 waves, and wins by beating the Grand Boss on wave 25.
 // play.html loads Phaser first, then this file.
 
-
-
 // ======================= SETTINGS (change these to rebalance) =======================
-
-// Map size: the map is 20 tiles wide and 12 tiles high, every tile is 48x48 pixels.
-const TILE = 48, COLS = 20, ROWS = 12;
-
-// MAP_H = height of the map in pixels, SHOP_H = height of the shop bar under the map.
-const MAP_H = ROWS * TILE, SHOP_H = 84;
-
-// Size of the whole game screen in pixels (map + shop bar).
-const WIDTH = COLS * TILE, HEIGHT = MAP_H + SHOP_H;
-
-// The corners of the path as [column, row]. Enemies walk from one corner to the next.
-// To change the path, change these numbers (all the code below follows the new path).
-const WAYPOINTS = [[0,2],[6,2],[6,8],[12,8],[12,3],[17,3],[17,10],[19,10]];
-
-// Starting gold, starting lives, and the bonus gold for clearing a wave.
+const TILE = 48, COLS = 20, ROWS = 12;                 // map: 20 x 12 tiles, each 48 pixels
+const MAP_H = ROWS * TILE, SHOP_H = 84;                // map height and shop bar height (pixels)
+const WIDTH = COLS * TILE, HEIGHT = MAP_H + SHOP_H;    // size of the whole game screen
+const WAYPOINTS = [[0,2],[6,2],[6,8],[12,8],[12,3],[17,3],[17,10],[19,10]]; // path corners as [column, row]
 const START_GOLD = 100, START_LIVES = 15, WAVE_CLEAR_BONUS = 20;
-
 const UPGRADE_EVERY = 4; // you pick an upgrade after every 4th wave
 const MAX_WAVES = 25;    // survive this many waves; the last one ends with the GRAND BOSS
-const SELL_REFUND = 0.7; // selling a tower gives back 70% of its cost (0.7 = 70%)
+const SELL_REFUND = 0.7; // selling a tower gives back 70% of its cost
 
-// Which way Barracks troops march along the path:
-//  -1 = up the path, towards where enemies enter (they meet enemies head-on)  <- default
-//   1 = the same way as the enemies, towards the exit
-// Either way, a troop that reaches the end of the path disappears and a new one is sent.
+// Barracks troops march: -1 = towards where enemies enter, 1 = towards the exit.
 const TROOP_DIRECTION = -1;
 
+// ---------- Tower pictures (SVG drawings, stored right here so no extra files are needed) ----------
+// Barrels point UP: the game rotates the picture towards the enemy.
+const TOWER_SVG = {
+  gun: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96">
+  <defs>
+    <radialGradient id="base" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="#b9c7dd"/><stop offset="1" stop-color="#46546e"/></radialGradient>
+    <radialGradient id="dome" cx="38%" cy="30%" r="80%"><stop offset="0" stop-color="#9cc3ff"/><stop offset="1" stop-color="#2a56b8"/></radialGradient>
+    <linearGradient id="barrel" x1="0" x2="1"><stop offset="0" stop-color="#2b3445"/><stop offset="0.45" stop-color="#6c7a93"/><stop offset="1" stop-color="#2b3445"/></linearGradient>
+  </defs>
+  <circle cx="48" cy="52" r="40" fill="#000" opacity="0.25"/>
+  <circle cx="48" cy="48" r="40" fill="url(#base)" stroke="#232c3d" stroke-width="4"/>
+  <g fill="#232c3d"><circle cx="20" cy="48" r="3"/><circle cx="76" cy="48" r="3"/><circle cx="48" cy="80" r="3"/></g>
+  <rect x="41" y="2" width="14" height="48" rx="3" fill="url(#barrel)" stroke="#1b2230" stroke-width="3"/>
+  <rect x="38" y="1" width="20" height="10" rx="3" fill="#1b2230"/>
+  <circle cx="48" cy="48" r="22" fill="url(#dome)" stroke="#183a86" stroke-width="3"/>
+  <ellipse cx="41" cy="40" rx="9" ry="6" fill="#fff" opacity="0.35"/>
+  <circle cx="48" cy="52" r="6" fill="#16367a" opacity="0.7"/>
+</svg>`,
+  cannon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96">
+  <defs>
+    <radialGradient id="base" cx="38%" cy="32%" r="80%"><stop offset="0" stop-color="#6b5a4a"/><stop offset="1" stop-color="#2f261f"/></radialGradient>
+    <radialGradient id="dome" cx="36%" cy="30%" r="80%"><stop offset="0" stop-color="#ffc47a"/><stop offset="1" stop-color="#d4660e"/></radialGradient>
+    <linearGradient id="barrel" x1="0" x2="1"><stop offset="0" stop-color="#2a2420"/><stop offset="0.45" stop-color="#8a7766"/><stop offset="1" stop-color="#2a2420"/></linearGradient>
+  </defs>
+  <circle cx="48" cy="52" r="41" fill="#000" opacity="0.25"/>
+  <rect x="8" y="8" width="80" height="80" rx="16" fill="url(#base)" stroke="#1c1612" stroke-width="4"/>
+  <g fill="#1c1612"><circle cx="19" cy="19" r="3.5"/><circle cx="77" cy="19" r="3.5"/><circle cx="19" cy="77" r="3.5"/><circle cx="77" cy="77" r="3.5"/></g>
+  <rect x="35" y="3" width="26" height="50" rx="5" fill="url(#barrel)" stroke="#161210" stroke-width="3"/>
+  <rect x="32" y="3" width="32" height="10" rx="4" fill="#161210"/>
+  <rect x="32" y="26" width="32" height="6" rx="2" fill="#161210" opacity="0.7"/>
+  <circle cx="48" cy="52" r="24" fill="url(#dome)" stroke="#8a3d05" stroke-width="3"/>
+  <ellipse cx="40" cy="43" rx="10" ry="6" fill="#fff" opacity="0.35"/>
+  <circle cx="48" cy="54" r="7" fill="#8a3d05" opacity="0.7"/>
+</svg>`,
+  frost: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96">
+  <defs>
+    <radialGradient id="base" cx="40%" cy="32%" r="80%"><stop offset="0" stop-color="#eaffff"/><stop offset="1" stop-color="#6fc2d4"/></radialGradient>
+    <linearGradient id="crystal" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="0.5" stop-color="#8fe6f2"/><stop offset="1" stop-color="#1fa3bd"/></linearGradient>
+  </defs>
+  <polygon points="48,6 86,27 86,69 48,90 10,69 10,27" fill="#000" opacity="0.2" transform="translate(0 4)"/>
+  <polygon points="48,6 86,27 86,69 48,90 10,69 10,27" fill="url(#base)" stroke="#2b7f93" stroke-width="4" stroke-linejoin="round"/>
+  <g stroke="#2b7f93" stroke-width="2.5" stroke-linecap="round" opacity="0.55">
+    <line x1="48" y1="20" x2="48" y2="76"/><line x1="24" y1="34" x2="72" y2="62"/><line x1="72" y1="34" x2="24" y2="62"/>
+  </g>
+  <polygon points="48,0 60,30 48,54 36,30" fill="url(#crystal)" stroke="#1b7f95" stroke-width="3" stroke-linejoin="round"/>
+  <polygon points="48,0 54,30 48,54" fill="#fff" opacity="0.35"/>
+  <circle cx="48" cy="48" r="13" fill="url(#crystal)" stroke="#1b7f95" stroke-width="3"/>
+  <circle cx="44" cy="44" r="4" fill="#fff" opacity="0.8"/>
+  <g fill="#fff" opacity="0.9"><circle cx="22" cy="30" r="2.5"/><circle cx="74" cy="66" r="2.5"/><circle cx="76" cy="32" r="2"/><circle cx="20" cy="64" r="2"/></g>
+</svg>`,
+  sniper: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96">
+  <defs>
+    <radialGradient id="base" cx="38%" cy="32%" r="80%"><stop offset="0" stop-color="#6d6290"/><stop offset="1" stop-color="#2b2542"/></radialGradient>
+    <radialGradient id="dome" cx="36%" cy="30%" r="80%"><stop offset="0" stop-color="#d7c2ff"/><stop offset="1" stop-color="#6a3fd0"/></radialGradient>
+    <linearGradient id="barrel" x1="0" x2="1"><stop offset="0" stop-color="#1f1b30"/><stop offset="0.45" stop-color="#7a7396"/><stop offset="1" stop-color="#1f1b30"/></linearGradient>
+  </defs>
+  <polygon points="30,6 66,6 90,30 90,66 66,90 30,90 6,66 6,30" fill="#000" opacity="0.25" transform="translate(0 4)"/>
+  <polygon points="30,6 66,6 90,30 90,66 66,90 30,90 6,66 6,30" fill="url(#base)" stroke="#18142a" stroke-width="4" stroke-linejoin="round"/>
+  <rect x="43.5" y="0" width="9" height="54" rx="2.5" fill="url(#barrel)" stroke="#120f20" stroke-width="2.5"/>
+  <rect x="41" y="0" width="14" height="8" rx="2" fill="#120f20"/>
+  <rect x="55" y="26" width="10" height="22" rx="3" fill="#2b2542" stroke="#120f20" stroke-width="2.5"/>
+  <circle cx="60" cy="26" r="4" fill="#9ff" stroke="#120f20" stroke-width="2"/>
+  <circle cx="48" cy="52" r="20" fill="url(#dome)" stroke="#3d1f8c" stroke-width="3"/>
+  <ellipse cx="41" cy="45" rx="8" ry="5" fill="#fff" opacity="0.4"/>
+  <circle cx="48" cy="54" r="5" fill="#3d1f8c" opacity="0.7"/>
+</svg>`,
+  barracks: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96">
+  <defs>
+    <linearGradient id="wall" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b7a98d"/><stop offset="1" stop-color="#6e6350"/></linearGradient>
+    <linearGradient id="roofL" x1="0" x2="1"><stop offset="0" stop-color="#8bd18e"/><stop offset="1" stop-color="#3f8f46"/></linearGradient>
+    <linearGradient id="roofR" x1="0" x2="1"><stop offset="0" stop-color="#3f8f46"/><stop offset="1" stop-color="#2a6b31"/></linearGradient>
+  </defs>
+  <rect x="10" y="14" width="76" height="76" rx="4" fill="#000" opacity="0.25" transform="translate(0 4)"/>
+  <rect x="10" y="12" width="76" height="76" rx="4" fill="url(#wall)" stroke="#3b3426" stroke-width="4"/>
+  <g fill="url(#wall)" stroke="#3b3426" stroke-width="3">
+    <rect x="6" y="8" width="20" height="20" rx="2"/><rect x="70" y="8" width="20" height="20" rx="2"/>
+    <rect x="6" y="72" width="20" height="20" rx="2"/><rect x="70" y="72" width="20" height="20" rx="2"/>
+  </g>
+  <polygon points="22,30 48,22 48,66 22,66" fill="url(#roofL)" stroke="#215226" stroke-width="3" stroke-linejoin="round"/>
+  <polygon points="48,22 74,30 74,66 48,66" fill="url(#roofR)" stroke="#215226" stroke-width="3" stroke-linejoin="round"/>
+  <line x1="48" y1="22" x2="48" y2="66" stroke="#215226" stroke-width="3"/>
+  <path d="M38 90 v-14 a10 10 0 0 1 20 0 v14 z" fill="#4a3320" stroke="#241a10" stroke-width="3"/>
+  <line x1="48" y1="22" x2="48" y2="4" stroke="#3b3426" stroke-width="3"/>
+  <polygon points="48,4 70,10 48,17" fill="#e5484d" stroke="#7a1f23" stroke-width="2" stroke-linejoin="round"/>
+</svg>`,
+};
+
 // ---------- Towers (press 1-5 or click the shop to choose) ----------
-// Each tower is an object with its stats:
-//   cost = gold price, range = how far it shoots (pixels), rate = milliseconds between shots
-//   dmg = damage per shot, bulletSpeed = how fast the bullet flies (pixels per second)
-//   color / bullet = colours (0xRRGGBB), desc = the short text shown in the shop
-// Special towers have extra fields: splash (area damage) or slow (slows enemies).
+// cost = gold, range = pixels, rate = ms between shots, dmg = damage per shot.
+// Optional: splash = area damage, slow = slows enemies. svg = the picture of the tower.
 const TOWERS = [
-  { name: "Gun",      cost: 50,  range: 150, rate: 500,  dmg: 2,  bulletSpeed: 420, color: 0x4c8dff, bullet: 0xffe066, desc: "Balanced" },
-  { name: "Cannon",   cost: 100, range: 130, rate: 1400, dmg: 6,  bulletSpeed: 300, color: 0xff9f43, bullet: 0xff6b35, desc: "Splash",   splash: 60 },
-  { name: "Frost",    cost: 75,  range: 120, rate: 900,  dmg: 1,  bulletSpeed: 380, color: 0x4dd0e1, bullet: 0xb2ebf2, desc: "Slows",    slow: 0.5, slowMs: 2000 },
-  { name: "Sniper",   cost: 150, range: 300, rate: 2000, dmg: 12, bulletSpeed: 900, color: 0xb388ff, bullet: 0xffffff, desc: "Long range" },
-  // Barracks: troops = how many can be alive at once, rate = ms between sending troops (this is also
-  // how fast fallen troops are replaced), troopHp / troopSpeed (pixels per second), dmg per hit, hitMs = ms between hits.
-  { name: "Barracks", cost: 120, rate: 2500, dmg: 4, color: 0x66bb6a, desc: "Marching troops", troops: 3, troopHp: 40, troopSpeed: 70, hitMs: 600 },
+  { name: "Gun",      cost: 50,  range: 150, rate: 500,  dmg: 2,  bulletSpeed: 420, color: 0x4c8dff, bullet: 0xffe066, desc: "Balanced", svg: TOWER_SVG.gun },
+  { name: "Cannon",   cost: 100, range: 130, rate: 1400, dmg: 6,  bulletSpeed: 300, color: 0xff9f43, bullet: 0xff6b35, desc: "Splash",   splash: 60, svg: TOWER_SVG.cannon },
+  { name: "Frost",    cost: 75,  range: 120, rate: 900,  dmg: 1,  bulletSpeed: 380, color: 0x4dd0e1, bullet: 0xb2ebf2, desc: "Slows",    slow: 0.5, slowMs: 2000, svg: TOWER_SVG.frost },
+  { name: "Sniper",   cost: 150, range: 300, rate: 2000, dmg: 12, bulletSpeed: 900, color: 0xb388ff, bullet: 0xffffff, desc: "Long range", svg: TOWER_SVG.sniper },
+  // Barracks: troops = how many at once, rate = ms between new troops, hitMs = ms between hits.
+  { name: "Barracks", cost: 120, rate: 2500, dmg: 4, color: 0x66bb6a, desc: "Marching troops", troops: 3, troopHp: 40, troopSpeed: 70, hitMs: 600, svg: TOWER_SVG.barracks },
 ];
 
 // ---------- Enemies (hp is a multiplier of the base 6 hp, which also grows each wave) ----------
-// dps = damage per second they deal to a troop that blocks them. lives = lives lost if they reach the exit.
-// speed = pixels per second, reward = gold for killing it, size = square size in pixels.
+// speed = pixels per second, reward = gold, dps = damage to a blocking troop, lives = lives lost at the exit.
 const ENEMY_TYPES = {
   grunt:  { name: "Grunt",  hp: 1,   speed: 80,  reward: 10,  size: 28, color: 0xe5484d, stroke: 0x000000, lives: 1, dps: 5 },
   runner: { name: "Runner", hp: 0.5, speed: 150, reward: 8,   size: 20, color: 0xffa94d, stroke: 0x000000, lives: 1, dps: 3 },
@@ -59,13 +124,12 @@ const ENEMY_TYPES = {
   brood:  { name: "Brood",  hp: 4,   speed: 60,  reward: 30,  size: 34, color: 0x20b2aa, stroke: 0xffffff, lives: 2, dps: 6, spawns: 3 }, // bursts into 3 minions when killed
   minion: { name: "Minion", hp: 0.4, speed: 100, reward: 3,   size: 16, color: 0xd96ad9, stroke: 0x000000, lives: 1, dps: 3 },
   boss:   { name: "Boss",   hp: 14,  speed: 40,  reward: 120, size: 48, color: 0x1a1a1a, stroke: 0xff4444, lives: 5, dps: 16 },
-  // The final enemy. It also calls for help: every summonEvery ms it sends out summons minions.
+  // The final enemy: it also summons minions every summonEvery ms.
   grandboss: { name: "Grand Boss", hp: 40, speed: 30, reward: 500, size: 68, color: 0x8b0000, stroke: 0xffd700, lives: 99, dps: 30, summonEvery: 6000, summons: 2 },
 };
 
-// ---------- Upgrades offered every UPGRADE_EVERY waves (you pick 1 of 3 random ones) ----------
-// apply(s) changes the game; "s" is the running game. s.mods holds the multipliers that every
-// tower uses (dmg = damage, rate = time between shots, range, bounty = gold from kills).
+// ---------- Upgrades (you pick 1 of 3 random ones every UPGRADE_EVERY waves) ----------
+// s.mods holds the multipliers that every tower uses.
 const UPGRADES = [
   { name: "Sharper Bullets", desc: "+35% damage for towers and troops", apply: (s) => { s.mods.dmg *= 1.35; } },
   { name: "Rapid Fire",      desc: "+25% attack speed, troops are sent faster", apply: (s) => { s.mods.rate /= 1.25; } },
@@ -128,14 +192,42 @@ function nearestOnPath(x, y) {                          // distance along the pa
   return bestS;
 }
 
+// ======================= Tower pictures -> canvases =======================
+// The browser turns each SVG text into a picture, and we copy it onto a small canvas.
+// The game only starts when all pictures are ready.
+const towerCanvases = [];
+function loadTowerPictures() {
+  return Promise.all(TOWERS.map((t, i) => new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => {
+      const c = document.createElement("canvas");
+      c.width = 96; c.height = 96;
+      c.getContext("2d").drawImage(img, 0, 0, 96, 96);
+      towerCanvases[i] = c;
+      resolve();
+    };
+    img.onerror = () => { console.warn("Tower picture failed: " + t.name); resolve(); };   // that tower uses a coloured square
+    img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(t.svg);
+  })));
+}
+
 // ======================= The game =======================
 // A Phaser "Scene" is one screen of the game. Phaser calls create() once at the start
 // and update() about 60 times per second.
 class Game extends Phaser.Scene {
   constructor() { super("Game"); }
 
+  // towerPicture(): makes the picture of tower type i at (x, y). If the picture could not
+  // be made, it draws a coloured square instead, so the game still works.
+  towerPicture(i, x, y, size) {
+    if (this.textures.exists("tower" + i)) return this.add.image(x, y, "tower" + i).setDisplaySize(size, size);
+    return this.add.rectangle(x, y, size - 10, size - 10, TOWERS[i].color).setStrokeStyle(3, 0x000000, 0.5);
+  }
+
   // create(): sets up a fresh game. It runs again when the game restarts.
   create() {
+    // Give Phaser the tower pictures (they were prepared before the game started)
+    towerCanvases.forEach((c, i) => { if (c && !this.textures.exists("tower" + i)) this.textures.addCanvas("tower" + i, c); });
     this.gold = START_GOLD; this.lives = START_LIVES; this.wave = 0; this.now = 0;
     this.enemies = []; this.towers = []; this.bullets = [];     // lists of everything alive on the map
     this.occupied = new Set();                                  // tiles that already have a tower
@@ -160,7 +252,7 @@ class Game extends Phaser.Scene {
 
     // Shop bar under the map: one button per tower type
     this.shopGfx = this.add.graphics().setDepth(10);
-    this.shopRects = []; this.shopTexts = [];
+    this.shopRects = []; this.shopTexts = []; this.shopIcons = [];
     const n = TOWERS.length;
     const bw = (WIDTH - (n + 1) * 8) / n;          // width of one shop button
     TOWERS.forEach((t, i) => {
@@ -169,6 +261,7 @@ class Game extends Phaser.Scene {
       this.shopTexts.push(this.add.text(r.x + 52, r.y + 8,
         `${i + 1}. ${t.name}\n${t.cost} gold\n${t.desc}`,
         { fontFamily: "monospace", fontSize: "13px", color: "#ffffff", lineSpacing: 4 }).setDepth(11));
+      this.shopIcons.push(this.towerPicture(i, r.x + 26, r.y + 32, 40).setDepth(11));   // the tower picture in the shop
     });
 
     // The text at the top left: gold, lives, wave and the upgrade bonuses
@@ -298,7 +391,7 @@ class Game extends Phaser.Scene {
     // Build the chosen tower on this tile
     const t = TOWERS[this.selected];
     const pos = center(c, r);
-    const body = this.add.rectangle(pos.x, pos.y, 34, 34, t.color).setStrokeStyle(3, 0x000000, 0.5);
+    const body = this.towerPicture(this.selected, pos.x, pos.y, 44);
     const tw = { x: pos.x, y: pos.y, col: c, row: r, cost: t.cost, rect: body, lastShot: 0, type: t };
     if (t.troops) {                                     // Barracks: remember where its troops step onto the path
       tw.troops = [];
@@ -522,13 +615,14 @@ class Game extends Phaser.Scene {
     for (const tw of this.towers) {
       const t = tw.type;
       if (t.troops) continue;                          // Barracks do not shoot
-      if (time - tw.lastShot < t.rate * this.mods.rate) continue;   // still reloading
       const range = t.range * this.mods.range;
       let target = null;
       for (const e of this.enemies) {                  // pick the enemy in range that is closest to the exit
         if (Math.hypot(e.rect.x - tw.x, e.rect.y - tw.y) <= range && (!target || e.traveled > target.traveled)) target = e;
       }
       if (!target) continue;
+      tw.rect.rotation = Math.atan2(target.rect.y - tw.y, target.rect.x - tw.x) + Math.PI / 2;   // turn the barrel towards the enemy
+      if (time - tw.lastShot < t.rate * this.mods.rate) continue;   // still reloading
       tw.lastShot = time;
       this.bullets.push({                              // fire a bullet
         circle: this.add.circle(tw.x, tw.y, t.splash ? 7 : 5, t.bullet),
@@ -660,8 +754,7 @@ class Game extends Phaser.Scene {
       g.fillRect(r.x, r.y, r.w, r.h);
       g.lineStyle(sel ? 3 : 1, sel ? 0xffffff : 0x44506a, 1);
       g.strokeRect(r.x, r.y, r.w, r.h);
-      g.fillStyle(t.color, afford ? 1 : 0.35);
-      g.fillRect(r.x + 10, r.y + 16, 32, 32);
+      this.shopIcons[i].setAlpha(afford ? 1 : 0.35);   // dim the picture when we cannot afford the tower
       this.shopTexts[i].setColor(afford ? "#ffffff" : "#777777");
     });
   }
@@ -713,9 +806,10 @@ class Game extends Phaser.Scene {
 }
 
 // ======================= Start the game =======================
-// Creates the Phaser game inside the <div id="game"> of play.html.
+// First the tower pictures are prepared, then the Phaser game is created inside
+// the <div id="game"> of play.html.
 // Phaser.Scale.FIT makes the game shrink or grow to fit the box while keeping its shape.
-new Phaser.Game({
+loadTowerPictures().then(() => new Phaser.Game({
   type: Phaser.AUTO,                     // use WebGL if possible, otherwise canvas
   width: WIDTH,
   height: HEIGHT,
@@ -723,4 +817,6 @@ new Phaser.Game({
   backgroundColor: "#12151c",
   scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
   scene: [Game],                         // the list of scenes: we only have one
-});
+}));
+
+
