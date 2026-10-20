@@ -8,6 +8,30 @@
   <title>Play the game</title>
   <!-- The stylesheet that gives every page of the wiki the same look -->
   <link rel="stylesheet" href="style.css">
+
+  <!-- Dark look for THIS page only (the rest of the wiki stays light).
+       These rules come after style.css, so they win over it. -->
+  <style>
+    body {
+      min-height: 100vh;
+      background-color: #0d1017;                       /* dark page instead of white */
+      /* a faint grid of blocks, to match the block map */
+      background-image:
+        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+      background-size: 48px 48px;
+      color: #cfd8ea;
+      text-align: center;
+    }
+    h1 { color: #ffe066; margin: 0; padding: 0.6em 0 0.1em; border: none; }   /* gold title */
+    a  { color: #7aa2ff; }                                                     /* light blue link */
+    a:hover { color: #ffffff; }
+    #game {
+      border: 4px solid #2b3a55;                       /* frame around the game */
+      border-radius: 6px;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.7), 0 0 0 8px #151b28;   /* shadow and a second, darker frame */
+    }
+  </style>
 </head>
 <body>
   <h1>Play the game</h1>

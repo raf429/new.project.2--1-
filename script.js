@@ -103,6 +103,125 @@ const TOWER_SVG = {
 </svg>`,
 };
 
+// ---------- Enemy pictures (SVG drawings; they turn to face the direction they walk) ----------
+const ENEMY_SVG = {
+  grunt: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96">
+  <defs>
+    <radialGradient id="b" cx="40%" cy="35%" r="75%"><stop offset="0" stop-color="#ff8a8e"/><stop offset="1" stop-color="#b3202a"/></radialGradient>
+  </defs>
+  <g fill="#7d1119" stroke="#3a0709" stroke-width="3">
+    <ellipse cx="12" cy="40" rx="9" ry="6" transform="rotate(-25 12 40)"/><ellipse cx="84" cy="40" rx="9" ry="6" transform="rotate(25 84 40)"/>
+    <ellipse cx="16" cy="70" rx="9" ry="6" transform="rotate(25 16 70)"/><ellipse cx="80" cy="70" rx="9" ry="6" transform="rotate(-25 80 70)"/>
+  </g>
+  <ellipse cx="48" cy="56" rx="32" ry="34" fill="url(#b)" stroke="#3a0709" stroke-width="4"/>
+  <ellipse cx="48" cy="64" rx="18" ry="16" fill="#ff9a9d" opacity="0.35"/>
+  <polygon points="26,26 30,4 42,22" fill="#f2e6c9" stroke="#3a0709" stroke-width="3" stroke-linejoin="round"/>
+  <polygon points="70,26 66,4 54,22" fill="#f2e6c9" stroke="#3a0709" stroke-width="3" stroke-linejoin="round"/>
+  <circle cx="48" cy="34" r="22" fill="url(#b)" stroke="#3a0709" stroke-width="4"/>
+  <ellipse cx="38" cy="33" rx="6.5" ry="7.5" fill="#fff6a8" stroke="#3a0709" stroke-width="2.5"/>
+  <ellipse cx="58" cy="33" rx="6.5" ry="7.5" fill="#fff6a8" stroke="#3a0709" stroke-width="2.5"/>
+  <circle cx="39" cy="35" r="3" fill="#220"/><circle cx="57" cy="35" r="3" fill="#220"/>
+  <path d="M30 24 L44 29 M66 24 L52 29" stroke="#3a0709" stroke-width="4" stroke-linecap="round"/>
+  <path d="M40 46 q8 5 16 0" stroke="#3a0709" stroke-width="3" fill="none" stroke-linecap="round"/>
+</svg>`,
+  runner: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96">
+  <defs>
+    <linearGradient id="b" x1="0" x2="1"><stop offset="0" stop-color="#ff7a1a"/><stop offset="0.5" stop-color="#ffc27a"/><stop offset="1" stop-color="#ff7a1a"/></linearGradient>
+  </defs>
+  <g stroke="#ffd9a8" stroke-width="3" stroke-linecap="round" opacity="0.6"><line x1="30" y1="76" x2="30" y2="94"/><line x1="48" y1="80" x2="48" y2="96"/><line x1="66" y1="76" x2="66" y2="94"/></g>
+  <g fill="#b34a00" stroke="#4d2000" stroke-width="3" stroke-linejoin="round">
+    <path d="M30 52 L6 66 L14 74 L32 66 Z"/><path d="M66 52 L90 66 L82 74 L64 66 Z"/>
+  </g>
+  <path d="M48 2 C66 20 72 48 66 74 C60 82 36 82 30 74 C24 48 30 20 48 2 Z" fill="url(#b)" stroke="#4d2000" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M48 12 L48 74" stroke="#b34a00" stroke-width="3" opacity="0.6"/>
+  <path d="M36 52 L48 46 L60 52 M37 64 L48 58 L59 64" stroke="#b34a00" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <ellipse cx="41" cy="26" rx="4" ry="6" fill="#fff" stroke="#4d2000" stroke-width="2.5"/><ellipse cx="55" cy="26" rx="4" ry="6" fill="#fff" stroke="#4d2000" stroke-width="2.5"/>
+  <circle cx="41" cy="24" r="2" fill="#220"/><circle cx="55" cy="24" r="2" fill="#220"/>
+</svg>`,
+  tank: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96">
+  <defs>
+    <radialGradient id="s" cx="40%" cy="30%" r="80%"><stop offset="0" stop-color="#b79af0"/><stop offset="1" stop-color="#4a2a8c"/></radialGradient>
+  </defs>
+  <g fill="#2b1850" stroke="#150a2b" stroke-width="3">
+    <rect x="4" y="18" width="14" height="62" rx="5"/><rect x="78" y="18" width="14" height="62" rx="5"/>
+  </g>
+  <g stroke="#6f55ad" stroke-width="2.5" opacity="0.9"><line x1="6" y1="28" x2="16" y2="28"/><line x1="6" y1="40" x2="16" y2="40"/><line x1="6" y1="52" x2="16" y2="52"/><line x1="6" y1="64" x2="16" y2="64"/><line x1="80" y1="28" x2="90" y2="28"/><line x1="80" y1="40" x2="90" y2="40"/><line x1="80" y1="52" x2="90" y2="52"/><line x1="80" y1="64" x2="90" y2="64"/></g>
+  <rect x="14" y="12" width="68" height="76" rx="22" fill="url(#s)" stroke="#150a2b" stroke-width="4"/>
+  <path d="M16 38 H80 M16 62 H80" stroke="#2b1850" stroke-width="3.5" opacity="0.8"/>
+  <g fill="#d9c8ff" stroke="#150a2b" stroke-width="2"><circle cx="30" cy="26" r="3.5"/><circle cx="66" cy="26" r="3.5"/><circle cx="30" cy="50" r="3.5"/><circle cx="66" cy="50" r="3.5"/><circle cx="30" cy="76" r="3.5"/><circle cx="66" cy="76" r="3.5"/></g>
+  <rect x="30" y="2" width="36" height="26" rx="10" fill="#7c5cc4" stroke="#150a2b" stroke-width="4"/>
+  <rect x="35" y="10" width="26" height="8" rx="3" fill="#ffd54f" stroke="#150a2b" stroke-width="2.5"/>
+  <circle cx="48" cy="52" r="9" fill="#2b1850" stroke="#d9c8ff" stroke-width="2.5"/>
+</svg>`,
+  brood: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96">
+  <defs>
+    <radialGradient id="a" cx="42%" cy="38%" r="75%"><stop offset="0" stop-color="#6ee7dc"/><stop offset="1" stop-color="#0e7a74"/></radialGradient>
+  </defs>
+  <g stroke="#06403c" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M36 34 L12 22 L4 38"/><path d="M34 44 L8 46 L4 62"/><path d="M36 54 L10 68 L8 86"/><path d="M38 62 L22 84 L24 94"/>
+    <path d="M60 34 L84 22 L92 38"/><path d="M62 44 L88 46 L92 62"/><path d="M60 54 L86 68 L88 86"/><path d="M58 62 L74 84 L72 94"/>
+  </g>
+  <ellipse cx="48" cy="62" rx="26" ry="30" fill="url(#a)" stroke="#fff" stroke-width="3.5"/>
+  <g fill="#c8fff9" stroke="#06403c" stroke-width="2.5"><circle cx="38" cy="58" r="6"/><circle cx="58" cy="62" r="7"/><circle cx="46" cy="78" r="5.5"/><circle cx="60" cy="80" r="3.5"/><circle cx="34" cy="74" r="3.5"/></g>
+  <circle cx="48" cy="30" r="15" fill="url(#a)" stroke="#fff" stroke-width="3.5"/>
+  <circle cx="42" cy="26" r="4" fill="#ffef7a" stroke="#06403c" stroke-width="2"/><circle cx="54" cy="26" r="4" fill="#ffef7a" stroke="#06403c" stroke-width="2"/>
+  <circle cx="48" cy="34" r="2.5" fill="#ffef7a"/>
+  <path d="M41 14 L38 6 M55 14 L58 6" stroke="#06403c" stroke-width="3.5" stroke-linecap="round"/>
+</svg>`,
+  minion: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96">
+  <defs>
+    <radialGradient id="b" cx="40%" cy="35%" r="75%"><stop offset="0" stop-color="#f5a3f5"/><stop offset="1" stop-color="#9c2f9c"/></radialGradient>
+  </defs>
+  <path d="M38 22 C34 10 24 6 18 8 M58 22 C62 10 72 6 78 8" stroke="#4d134d" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <circle cx="18" cy="8" r="4" fill="#4d134d"/><circle cx="78" cy="8" r="4" fill="#4d134d"/>
+  <g stroke="#4d134d" stroke-width="4" stroke-linecap="round"><line x1="16" y1="44" x2="30" y2="48"/><line x1="80" y1="44" x2="66" y2="48"/><line x1="14" y1="64" x2="30" y2="62"/><line x1="82" y1="64" x2="66" y2="62"/></g>
+  <ellipse cx="48" cy="56" rx="28" ry="34" fill="url(#b)" stroke="#4d134d" stroke-width="4"/>
+  <circle cx="35" cy="36" r="13" fill="#fff" stroke="#4d134d" stroke-width="3"/><circle cx="61" cy="36" r="13" fill="#fff" stroke="#4d134d" stroke-width="3"/>
+  <circle cx="37" cy="33" r="6" fill="#220"/><circle cx="59" cy="33" r="6" fill="#220"/>
+  <circle cx="39" cy="31" r="2" fill="#fff"/><circle cx="61" cy="31" r="2" fill="#fff"/>
+  <path d="M38 66 q10 8 20 0" stroke="#4d134d" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+</svg>`,
+  boss: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96">
+  <defs>
+    <radialGradient id="b" cx="40%" cy="30%" r="80%"><stop offset="0" stop-color="#5a5a66"/><stop offset="1" stop-color="#101016"/></radialGradient>
+  </defs>
+  <g fill="#1a1a22" stroke="#ff4444" stroke-width="2.5" stroke-linejoin="round">
+    <polygon points="14,40 0,34 10,54"/><polygon points="82,40 96,34 86,54"/><polygon points="12,62 0,64 14,78"/><polygon points="84,62 96,64 82,78"/>
+    <polygon points="30,86 24,96 40,90"/><polygon points="66,86 72,96 56,90"/>
+  </g>
+  <ellipse cx="48" cy="56" rx="36" ry="36" fill="url(#b)" stroke="#ff4444" stroke-width="4"/>
+  <path d="M30 70 L40 60 L36 50 M66 72 L58 62 L64 52 M48 82 L48 70" stroke="#ff4444" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.8"/>
+  <path d="M26 30 C16 20 20 8 30 2 C28 12 34 18 38 22 Z" fill="#e8e0d0" stroke="#ff4444" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M70 30 C80 20 76 8 66 2 C68 12 62 18 58 22 Z" fill="#e8e0d0" stroke="#ff4444" stroke-width="2.5" stroke-linejoin="round"/>
+  <circle cx="48" cy="34" r="22" fill="url(#b)" stroke="#ff4444" stroke-width="4"/>
+  <path d="M30 28 L44 36 L30 38 Z" fill="#ff2a2a" stroke="#600" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M66 28 L52 36 L66 38 Z" fill="#ff2a2a" stroke="#600" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M38 46 L58 46 M41 46 v5 M48 46 v6 M55 46 v5" stroke="#e8e0d0" stroke-width="3" stroke-linecap="round"/>
+</svg>`,
+  grandboss: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96">
+  <defs>
+    <radialGradient id="b" cx="42%" cy="32%" r="80%"><stop offset="0" stop-color="#d04040"/><stop offset="1" stop-color="#4d0508"/></radialGradient>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff2a0"/><stop offset="1" stop-color="#d89a10"/></linearGradient>
+  </defs>
+  <g fill="url(#g)" stroke="#5a3a00" stroke-width="2.5" stroke-linejoin="round">
+    <polygon points="48,78 40,94 56,94" transform="translate(0 0)"/>
+    <polygon points="10,30 0,14 22,22"/><polygon points="86,30 96,14 74,22"/>
+    <polygon points="4,52 -2,40 14,46" transform="translate(2 4)"/><polygon points="92,52 98,40 82,46" transform="translate(-2 4)"/>
+    <polygon points="12,74 2,70 14,60" transform="translate(2 4)"/><polygon points="84,74 94,70 82,60" transform="translate(-2 4)"/>
+    <polygon points="26,86 22,96 36,88"/><polygon points="70,86 74,96 60,88"/>
+  </g>
+  <circle cx="48" cy="54" r="40" fill="url(#b)" stroke="#ffd700" stroke-width="4.5"/>
+  <circle cx="48" cy="54" r="30" fill="none" stroke="#ffd700" stroke-width="2" stroke-dasharray="3 5" opacity="0.8"/>
+  <path d="M22 62 L34 54 M74 62 L62 54 M30 80 L40 70 M66 80 L56 70" stroke="#ff8a3d" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
+  <path d="M30 26 L24 6 L38 16 L48 0 L58 16 L72 6 L66 26 Z" fill="url(#g)" stroke="#5a3a00" stroke-width="3" stroke-linejoin="round"/>
+  <circle cx="48" cy="14" r="3.5" fill="#e5484d" stroke="#5a3a00" stroke-width="1.5"/>
+  <circle cx="48" cy="40" r="22" fill="url(#b)" stroke="#ffd700" stroke-width="4"/>
+  <path d="M30 34 L45 41 L30 44 Z" fill="#ffee55" stroke="#5a3a00" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M66 34 L51 41 L66 44 Z" fill="#ffee55" stroke="#5a3a00" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M36 54 L60 54 M39 54 v6 M45 54 v7 M51 54 v7 M57 54 v6" stroke="#f5e9c8" stroke-width="3" stroke-linecap="round"/>
+</svg>`,
+};
+
 // ---------- Icons (small SVG drawings for the top-left display and the upgrade cards) ----------
 const ICON_SVG = {
   gold: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64"><defs><radialGradient id="c" cx="40%" cy="35%" r="75%"><stop offset="0" stop-color="#fff3a0"/><stop offset="1" stop-color="#e0a010"/></radialGradient></defs><circle cx="32" cy="35" r="26" fill="#000" opacity="0.25"/><circle cx="32" cy="32" r="26" fill="url(#c)" stroke="#8a5a00" stroke-width="4"/><circle cx="32" cy="32" r="17" fill="none" stroke="#b97a05" stroke-width="3"/><rect x="28" y="20" width="8" height="24" rx="2" fill="#b97a05"/><ellipse cx="22" cy="20" rx="6" ry="3" fill="#fff" opacity="0.5" transform="rotate(-35 22 20)"/></svg>`,
@@ -129,16 +248,17 @@ const TOWERS = [
 ];
 
 // ---------- Enemies (hp is a multiplier of the base 6 hp, which also grows each wave) ----------
-// speed = pixels per second, reward = gold, dps = damage to a blocking troop, lives = lives lost at the exit.
+// speed = pixels per second, reward = gold, dps = damage to a blocking troop, lives = lives lost at the exit,
+// svg = the picture of the enemy (size = how big it is on the map).
 const ENEMY_TYPES = {
-  grunt:  { name: "Grunt",  hp: 1,   speed: 80,  reward: 10,  size: 28, color: 0xe5484d, stroke: 0x000000, lives: 1, dps: 5 },
-  runner: { name: "Runner", hp: 0.5, speed: 150, reward: 8,   size: 20, color: 0xffa94d, stroke: 0x000000, lives: 1, dps: 3 },
-  tank:   { name: "Tank",   hp: 3,   speed: 50,  reward: 25,  size: 38, color: 0x7b4fbf, stroke: 0x000000, lives: 2, dps: 9 },
-  brood:  { name: "Brood",  hp: 4,   speed: 60,  reward: 30,  size: 34, color: 0x20b2aa, stroke: 0xffffff, lives: 2, dps: 6, spawns: 3 }, // bursts into 3 minions when killed
-  minion: { name: "Minion", hp: 0.4, speed: 100, reward: 3,   size: 16, color: 0xd96ad9, stroke: 0x000000, lives: 1, dps: 3 },
-  boss:   { name: "Boss",   hp: 14,  speed: 40,  reward: 120, size: 48, color: 0x1a1a1a, stroke: 0xff4444, lives: 5, dps: 16 },
+  grunt:  { svg: ENEMY_SVG.grunt, name: "Grunt",  hp: 1,   speed: 80,  reward: 10,  size: 28, color: 0xe5484d, stroke: 0x000000, lives: 1, dps: 5 },
+  runner: { svg: ENEMY_SVG.runner, name: "Runner", hp: 0.5, speed: 150, reward: 8,   size: 20, color: 0xffa94d, stroke: 0x000000, lives: 1, dps: 3 },
+  tank:   { svg: ENEMY_SVG.tank, name: "Tank",   hp: 3,   speed: 50,  reward: 25,  size: 38, color: 0x7b4fbf, stroke: 0x000000, lives: 2, dps: 9 },
+  brood:  { svg: ENEMY_SVG.brood, name: "Brood",  hp: 4,   speed: 60,  reward: 30,  size: 34, color: 0x20b2aa, stroke: 0xffffff, lives: 2, dps: 6, spawns: 3 }, // bursts into 3 minions when killed
+  minion: { svg: ENEMY_SVG.minion, name: "Minion", hp: 0.4, speed: 100, reward: 3,   size: 16, color: 0xd96ad9, stroke: 0x000000, lives: 1, dps: 3 },
+  boss:   { svg: ENEMY_SVG.boss, name: "Boss",   hp: 14,  speed: 40,  reward: 120, size: 48, color: 0x1a1a1a, stroke: 0xff4444, lives: 5, dps: 16 },
   // The final enemy: it also summons minions every summonEvery ms.
-  grandboss: { name: "Grand Boss", hp: 40, speed: 30, reward: 500, size: 68, color: 0x8b0000, stroke: 0xffd700, lives: 99, dps: 30, summonEvery: 6000, summons: 2 },
+  grandboss: { svg: ENEMY_SVG.grandboss, name: "Grand Boss", hp: 40, speed: 30, reward: 500, size: 68, color: 0x8b0000, stroke: 0xffd700, lives: 99, dps: 30, summonEvery: 6000, summons: 2 },
 };
 
 // ---------- Upgrades (you pick 1 of 3 random ones every UPGRADE_EVERY waves) ----------
@@ -220,10 +340,11 @@ function nearestOnPath(x, y) {                          // distance along the pa
 }
 
 // ======================= Pictures -> canvases =======================
-// The browser turns each SVG text (towers and icons) into a picture, and we copy it onto a small
+// The browser turns each SVG text (towers, enemies and icons) into a picture, and we copy it onto a small
 // canvas. The game only starts when all pictures are ready.
 const PICTURES = {};                                                  // name -> SVG text
 TOWERS.forEach((t, i) => { PICTURES["tower" + i] = t.svg; });
+for (const k in ENEMY_TYPES) PICTURES["enemy_" + k] = ENEMY_TYPES[k].svg;
 for (const k in ICON_SVG) PICTURES["icon_" + k] = ICON_SVG[k];
 const pictureCanvases = {};                                           // name -> ready canvas
 function loadPictures() {
@@ -252,6 +373,20 @@ class Game extends Phaser.Scene {
   towerPicture(i, x, y, size) {
     if (this.textures.exists("tower" + i)) return this.add.image(x, y, "tower" + i).setDisplaySize(size, size);
     return this.add.rectangle(x, y, size - 10, size - 10, TOWERS[i].color).setStrokeStyle(3, 0x000000, 0.5);
+  }
+
+  // enemyPicture(): makes the picture of an enemy. If the picture could not be made, it draws
+  // the old coloured square instead. The picture is a bit bigger than "size" because it has legs and horns.
+  enemyPicture(key, x, y) {
+    const d = ENEMY_TYPES[key];
+    if (this.textures.exists("enemy_" + key)) return this.add.image(x, y, "enemy_" + key).setDisplaySize(d.size * 1.3, d.size * 1.3);
+    return this.add.rectangle(x, y, d.size, d.size, d.color).setStrokeStyle(2, d.stroke, 0.8);
+  }
+
+  // freeze(): gives an enemy a light-blue look while it is slowed, and its normal look again afterwards.
+  freeze(e, on) {
+    if (e.rect.setTint) { if (on) e.rect.setTint(0x8fdcff); else e.rect.clearTint(); }   // pictures get a blue tint
+    else e.rect.setFillStyle(on ? 0x8fdcff : e.def.color);                              // squares change colour
   }
 
   // iconPicture(): a small icon picture (or a white square if it is missing).
@@ -450,8 +585,9 @@ class Game extends Phaser.Scene {
   makeEnemy(key, x, y, target, traveled) {
     const d = ENEMY_TYPES[key];
     const hp = Math.round(6 * d.hp * (1 + (this.wave - 1) * 0.3));   // enemies get 30% tougher every wave
-    const rect = this.add.rectangle(x, y, d.size, d.size, d.color).setStrokeStyle(2, d.stroke, 0.8);
-    const e = { rect, def: d, hp, maxHp: hp, target, traveled, slowUntil: 0, slowFactor: 1, slowed: false, holdUntil: 0, dead: false };
+    const rect = this.enemyPicture(key, x, y);
+    const e = { rect, def: d, hp, maxHp: hp, target, traveled, slowUntil: 0, slowFactor: 1, slowed: false, holdUntil: 0, dead: false,
+                vis: d.size * 1.3, wob: Math.random() * 6.28 };   // vis = drawn size, wob = start of the waddle
     this.enemies.push(e);
     return e;
   }
@@ -663,7 +799,7 @@ class Game extends Phaser.Scene {
     for (let i = this.enemies.length - 1; i >= 0; i--) {
       const e = this.enemies[i];
       const slowed = time < e.slowUntil;
-      if (slowed !== e.slowed) { e.slowed = slowed; e.rect.setFillStyle(slowed ? 0x8fdcff : e.def.color); }   // light blue while slowed
+      if (slowed !== e.slowed) { e.slowed = slowed; this.freeze(e, slowed); }   // light blue while slowed
       if (e.def.summonEvery) {                         // Grand Boss: calls minions now and then
         if (!e.nextSummon) e.nextSummon = time + e.def.summonEvery;
         if (time >= e.nextSummon) {
@@ -693,6 +829,7 @@ class Game extends Phaser.Scene {
       } else {                                         // move a little towards the corner
         e.rect.x += (dx / dist) * step;
         e.rect.y += (dy / dist) * step;
+        e.rect.rotation = Math.atan2(dy, dx) + Math.PI / 2 + Math.sin(time / 90 + e.wob) * 0.12;   // face the walking direction, with a little waddle
         e.traveled += step;
       }
     }
@@ -797,7 +934,7 @@ class Game extends Phaser.Scene {
     // Health bars + hover highlight
     this.bars.clear();                                 // erase the old bars, then draw them again
     for (const e of this.enemies) {
-      const w = Math.max(24, e.def.size), x = e.rect.x - w / 2, y = e.rect.y - e.def.size / 2 - 8;
+      const w = Math.max(24, e.vis), x = e.rect.x - w / 2, y = e.rect.y - e.vis / 2 - 6;
       this.bars.fillStyle(0x000000, 0.6);              // dark background of the bar
       this.bars.fillRect(x, y, w, 5);
       this.bars.fillStyle(e.slowed ? 0x7fd8ff : 0x46c36b, 1);   // green (blue when slowed) health part
