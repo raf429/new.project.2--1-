@@ -1066,12 +1066,12 @@ class Game extends Phaser.Scene {
     ).setOrigin(0.5).setDepth(40);
   }
 
-  // gameOver(): the player ran out of lives. A click starts a new game (see onClick).
+  // gameOver(): the player ran out of lives. go back to the wiki page to play again (see onClick).
   gameOver() {
     this.over = true; this.overAt = this.now;
     this.time.removeAllEvents();                        // stop all timers
     this.add.text(WIDTH / 2, MAP_H / 2,
-      `GAME OVER\nYou reached wave ${this.wave}\nClick to restart`,
+      `GAME OVER\nYou reached wave ${this.wave}\ngo back to the wiki page to play again!`,
       { fontFamily: "monospace", fontSize: "36px", color: "#ffffff", align: "center",
         backgroundColor: "#000000cc", padding: { x: 20, y: 14 } }
     ).setOrigin(0.5).setDepth(40);
