@@ -103,6 +103,19 @@ const TOWER_SVG = {
 </svg>`,
 };
 
+// ---------- Icons (small SVG drawings for the top-left display and the upgrade cards) ----------
+const ICON_SVG = {
+  gold: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64"><defs><radialGradient id="c" cx="40%" cy="35%" r="75%"><stop offset="0" stop-color="#fff3a0"/><stop offset="1" stop-color="#e0a010"/></radialGradient></defs><circle cx="32" cy="35" r="26" fill="#000" opacity="0.25"/><circle cx="32" cy="32" r="26" fill="url(#c)" stroke="#8a5a00" stroke-width="4"/><circle cx="32" cy="32" r="17" fill="none" stroke="#b97a05" stroke-width="3"/><rect x="28" y="20" width="8" height="24" rx="2" fill="#b97a05"/><ellipse cx="22" cy="20" rx="6" ry="3" fill="#fff" opacity="0.5" transform="rotate(-35 22 20)"/></svg>`,
+  lives: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64"><defs><radialGradient id="h" cx="35%" cy="30%" r="80%"><stop offset="0" stop-color="#ff8a8e"/><stop offset="1" stop-color="#c4202c"/></radialGradient></defs><path d="M32 58 C6 40 4 22 17 13 C25 8 32 15 32 20 C32 15 39 8 47 13 C60 22 58 40 32 58 Z" fill="url(#h)" stroke="#6b0f17" stroke-width="4" stroke-linejoin="round"/><ellipse cx="20" cy="22" rx="6" ry="4" fill="#fff" opacity="0.55" transform="rotate(-35 20 22)"/></svg>`,
+  wave: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64"><rect x="12" y="6" width="6" height="54" rx="2" fill="#8a6a45" stroke="#3d2c18" stroke-width="3"/><path d="M18 8 L56 8 L46 22 L56 36 L18 36 Z" fill="#e5484d" stroke="#7a1f23" stroke-width="3" stroke-linejoin="round"/><circle cx="15" cy="6" r="5" fill="#ffd54f" stroke="#8a5a00" stroke-width="2"/></svg>`,
+  damage: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64"><polygon points="32,2 40,10 40,40 24,40 24,10" fill="#dfe6ee" stroke="#4b5563" stroke-width="3" stroke-linejoin="round"/><line x1="32" y1="8" x2="32" y2="38" stroke="#9aa5b4" stroke-width="3"/><rect x="14" y="40" width="36" height="8" rx="3" fill="#e0a010" stroke="#8a5a00" stroke-width="3"/><rect x="28" y="48" width="8" height="10" fill="#7a4a22" stroke="#3d2610" stroke-width="2"/><circle cx="32" cy="60" r="4" fill="#e0a010" stroke="#8a5a00" stroke-width="2"/></svg>`,
+  speed: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64"><polygon points="38,2 12,36 28,36 22,62 52,26 35,26" fill="#ffd93d" stroke="#b36b00" stroke-width="4" stroke-linejoin="round"/><polygon points="36,8 22,30 32,30" fill="#fff6b0" opacity="0.7"/></svg>`,
+  range: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64"><circle cx="32" cy="32" r="27" fill="#fff" stroke="#7a1f23" stroke-width="4"/><circle cx="32" cy="32" r="19" fill="#e5484d" stroke="#7a1f23" stroke-width="3"/><circle cx="32" cy="32" r="11" fill="#fff" stroke="#7a1f23" stroke-width="3"/><circle cx="32" cy="32" r="5" fill="#e5484d" stroke="#7a1f23" stroke-width="2"/><path d="M32 0 V14 M32 50 V64 M0 32 H14 M50 32 H64" stroke="#2b2b2b" stroke-width="3" stroke-linecap="round"/></svg>`,
+  bounty: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64"><g fill="#ffd54f" stroke="#8a5a00" stroke-width="3"><ellipse cx="32" cy="50" rx="24" ry="9"/><rect x="8" y="38" width="48" height="12" stroke="none"/><ellipse cx="32" cy="38" rx="24" ry="9"/><rect x="8" y="26" width="48" height="12" stroke="none"/><ellipse cx="32" cy="26" rx="24" ry="9"/><rect x="8" y="14" width="48" height="12" stroke="none"/><ellipse cx="32" cy="14" rx="24" ry="9" fill="#fff3a0"/></g><path d="M8 14 V50 M56 14 V50" stroke="#8a5a00" stroke-width="3"/><ellipse cx="32" cy="14" rx="12" ry="4" fill="none" stroke="#b97a05" stroke-width="2.5"/></svg>`,
+  supply: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64"><path d="M6 26 C6 6 58 6 58 26 Z" fill="#e5484d" stroke="#7a1f23" stroke-width="3" stroke-linejoin="round"/><path d="M22 26 C22 12 42 12 42 26 Z" fill="#fff" stroke="#7a1f23" stroke-width="2.5" stroke-linejoin="round"/><path d="M8 27 L26 46 M56 27 L38 46 M32 27 V46" stroke="#3d2c18" stroke-width="2.5"/><rect x="22" y="46" width="20" height="16" rx="2" fill="#c08a4a" stroke="#5a3a18" stroke-width="3"/><path d="M22 54 H42 M32 46 V62" stroke="#5a3a18" stroke-width="2.5"/></svg>`,
+  reinforce: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64"><defs><linearGradient id="s" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6fa8ff"/><stop offset="1" stop-color="#2a56b8"/></linearGradient></defs><path d="M32 3 L56 12 V32 C56 46 46 56 32 61 C18 56 8 46 8 32 V12 Z" fill="url(#s)" stroke="#16367a" stroke-width="4" stroke-linejoin="round"/><path d="M26 18 H38 V28 H48 V38 H38 V48 H26 V38 H16 V28 H26 Z" fill="#fff" stroke="#16367a" stroke-width="2.5" stroke-linejoin="round"/></svg>`,
+};
+
 // ---------- Towers (press 1-5 or click the shop to choose) ----------
 // cost = gold, range = pixels, rate = ms between shots, dmg = damage per shot.
 // Optional: splash = area damage, slow = slows enemies. svg = the picture of the tower.
@@ -131,12 +144,12 @@ const ENEMY_TYPES = {
 // ---------- Upgrades (you pick 1 of 3 random ones every UPGRADE_EVERY waves) ----------
 // s.mods holds the multipliers that every tower uses.
 const UPGRADES = [
-  { name: "Sharper Bullets", desc: "+35% damage for towers and troops", apply: (s) => { s.mods.dmg *= 1.35; } },
-  { name: "Rapid Fire",      desc: "+25% attack speed, troops are sent faster", apply: (s) => { s.mods.rate /= 1.25; } },
-  { name: "Eagle Eye",       desc: "+20% range for shooting towers",    apply: (s) => { s.mods.range *= 1.2; } },
-  { name: "Bounty Hunter",   desc: "+35% gold from every kill",         apply: (s) => { s.mods.bounty *= 1.35; } },
-  { name: "Supply Drop",     desc: "+250 gold right now",               apply: (s) => { s.gold += 250; } },
-  { name: "Reinforcements",  desc: "+5 lives",                          apply: (s) => { s.lives += 5; } },
+  { icon: "damage", name: "Sharper Bullets", desc: "+35% damage for towers and troops", apply: (s) => { s.mods.dmg *= 1.35; } },
+  { icon: "speed", name: "Rapid Fire",      desc: "+25% attack speed, troops are sent faster", apply: (s) => { s.mods.rate /= 1.25; } },
+  { icon: "range", name: "Eagle Eye",       desc: "+20% range for shooting towers",    apply: (s) => { s.mods.range *= 1.2; } },
+  { icon: "bounty", name: "Bounty Hunter",   desc: "+35% gold from every kill",         apply: (s) => { s.mods.bounty *= 1.35; } },
+  { icon: "supply", name: "Supply Drop",     desc: "+250 gold right now",               apply: (s) => { s.gold += 250; } },
+  { icon: "reinforce", name: "Reinforcements",  desc: "+5 lives",                          apply: (s) => { s.lives += 5; } },
 ];
 
 // ======================= Path tiles (built from the waypoints) =======================
@@ -149,6 +162,20 @@ for (let i = 0; i < WAYPOINTS.length - 1; i++) {
   const dc = Math.sign(c2 - c), dr = Math.sign(r2 - r);   // direction: -1, 0 or 1 in each axis
   pathTiles.add(c + "," + r);
   while (c !== c2 || r !== r2) { c += dc; r += dr; pathTiles.add(c + "," + r); }   // walk tile by tile
+}
+
+// ======================= Map decorations (each one fills a whole tile, so you cannot build there) =======================
+const TREES = [[1,4],[4,5],[0,9],[4,10],[9,5],[9,1],[10,6],[14,1],[16,1],[18,6],[19,3],[8,10],[13,10],[15,9],[19,7]];
+const ROCKS = [[4,7],[10,9],[16,5],[8,3],[11,0],[3,8]];
+const PONDS = [[1,6],[2,6],[1,7],[14,6],[15,6],[15,7]];
+const decorTiles = new Set([...TREES, ...ROCKS, ...PONDS].map(([c, r]) => c + "," + r));
+
+// rand(c, r, k): a "random" number from 0 to 1 that is always the same for the same tile,
+// so the map looks identical every time the game starts.
+function rand(c, r, k) {
+  let h = Math.imul(c + 1, 73856093) ^ Math.imul(r + 1, 19349663) ^ Math.imul(k + 1, 83492791);
+  h = Math.imul(h ^ (h >>> 13), 1274126177);
+  return ((h ^ (h >>> 16)) >>> 0) / 4294967295;
 }
 
 // Converts a tile (column, row) into the pixel position of the CENTRE of that tile.
@@ -192,22 +219,25 @@ function nearestOnPath(x, y) {                          // distance along the pa
   return bestS;
 }
 
-// ======================= Tower pictures -> canvases =======================
-// The browser turns each SVG text into a picture, and we copy it onto a small canvas.
-// The game only starts when all pictures are ready.
-const towerCanvases = [];
-function loadTowerPictures() {
-  return Promise.all(TOWERS.map((t, i) => new Promise((resolve) => {
+// ======================= Pictures -> canvases =======================
+// The browser turns each SVG text (towers and icons) into a picture, and we copy it onto a small
+// canvas. The game only starts when all pictures are ready.
+const PICTURES = {};                                                  // name -> SVG text
+TOWERS.forEach((t, i) => { PICTURES["tower" + i] = t.svg; });
+for (const k in ICON_SVG) PICTURES["icon_" + k] = ICON_SVG[k];
+const pictureCanvases = {};                                           // name -> ready canvas
+function loadPictures() {
+  return Promise.all(Object.keys(PICTURES).map((name) => new Promise((resolve) => {
     const img = new Image();
     img.onload = () => {
       const c = document.createElement("canvas");
       c.width = 96; c.height = 96;
       c.getContext("2d").drawImage(img, 0, 0, 96, 96);
-      towerCanvases[i] = c;
+      pictureCanvases[name] = c;
       resolve();
     };
-    img.onerror = () => { console.warn("Tower picture failed: " + t.name); resolve(); };   // that tower uses a coloured square
-    img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(t.svg);
+    img.onerror = () => { console.warn("Picture failed: " + name); resolve(); };   // that picture is simply missing
+    img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(PICTURES[name]);
   })));
 }
 
@@ -224,10 +254,114 @@ class Game extends Phaser.Scene {
     return this.add.rectangle(x, y, size - 10, size - 10, TOWERS[i].color).setStrokeStyle(3, 0x000000, 0.5);
   }
 
+  // iconPicture(): a small icon picture (or a white square if it is missing).
+  iconPicture(name, x, y, size) {
+    if (this.textures.exists("icon_" + name)) return this.add.image(x, y, "icon_" + name).setDisplaySize(size, size);
+    return this.add.rectangle(x, y, size * 0.6, size * 0.6, 0xffffff);
+  }
+
+  // drawMap(): paints the ground as blocks (grass and dirt). Every block has a light edge on
+  // the top-left and a dark edge on the bottom-right, so it looks like a little cube.
+  drawMap() {
+    const g = this.add.graphics();
+    const GRASS = [0x3f7d3a, 0x44853f, 0x3a7336, 0x488a43];       // four greens, picked per tile
+    const DIRT = [0xa68a5b, 0x9c8154, 0xb0955f];                  // three browns for the path
+    for (let r = 0; r < ROWS; r++) {
+      for (let c = 0; c < COLS; c++) {
+        const x = c * TILE, y = r * TILE, path = pathTiles.has(c + "," + r);
+        const pick = Math.floor(rand(c, r, 0) * 4);               // the same "random" number every time
+        g.fillStyle(path ? DIRT[pick % 3] : GRASS[pick], 1);
+        g.fillRect(x, y, TILE, TILE);
+        g.fillStyle(0xffffff, 0.14); g.fillRect(x, y, TILE, 3); g.fillRect(x, y + 3, 3, TILE - 3);               // light edge
+        g.fillStyle(0x000000, 0.22); g.fillRect(x, y + TILE - 3, TILE, 3); g.fillRect(x + TILE - 3, y, 3, TILE - 3);   // dark edge
+        for (let k = 1; k <= 3; k++) {                            // small specks: pebbles on the path, grass blades on grass
+          const sx = x + 7 + Math.floor(rand(c, r, k) * (TILE - 18));
+          const sy = y + 7 + Math.floor(rand(c, r, k + 5) * (TILE - 18));
+          if (path) { g.fillStyle(k % 2 ? 0xcfc3a2 : 0x7a643f, 1); g.fillRect(sx, sy, 5, 4); }
+          else      { g.fillStyle(k % 2 ? 0x5fa356 : 0x2e5f2b, 1); g.fillRect(sx, sy, 2, 6); }
+        }
+      }
+    }
+  }
+
+  // drawDecor(): everything on the map that is built from blocks and moves a little:
+  // swaying trees and flowers, shimmering ponds, a portal, a castle gate, fireflies and drifting cloud shadows.
+  drawDecor() {
+    const sway = (obj, deg, ms) => this.tweens.add({ targets: obj, angle: { from: -deg, to: deg }, duration: ms, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
+
+    PONDS.forEach(([c, r]) => {                                   // water blocks with light spots that fade in and out
+      const x = c * TILE, y = r * TILE;
+      this.add.rectangle(x + TILE / 2, y + TILE / 2, TILE, TILE, 0x2f7fc4).setStrokeStyle(3, 0x1f5f9e);
+      for (let k = 0; k < 2; k++) {
+        const s = this.add.rectangle(x + 8 + rand(c, r, 20 + k) * 20, y + 8 + rand(c, r, 30 + k) * 28, 14, 4, 0xffffff, 0.35);
+        this.tweens.add({ targets: s, alpha: { from: 0.05, to: 0.45 }, duration: 900 + rand(c, r, 40 + k) * 900, yoyo: true, repeat: -1, delay: rand(c, r, 50 + k) * 1500 });
+      }
+    });
+
+    ROCKS.forEach(([c, r]) => {                                   // three grey blocks
+      const x = c * TILE + TILE / 2, y = r * TILE + TILE - 6;
+      this.add.rectangle(x, y, 30, 16, 0x8a8f98).setOrigin(0.5, 1).setStrokeStyle(2, 0x4b4f57);
+      this.add.rectangle(x + 4, y - 14, 16, 10, 0xa4a9b2).setOrigin(0.5, 1).setStrokeStyle(2, 0x4b4f57);
+      this.add.rectangle(x - 9, y - 4, 8, 5, 0xc3c7ce);
+    });
+
+    TREES.forEach(([c, r]) => {                                   // a trunk and three stacked leaf blocks, swaying slowly
+      const tree = this.add.container(c * TILE + TILE / 2, r * TILE + TILE - 4, [
+        this.add.ellipse(0, 0, 36, 10, 0x000000, 0.25),
+        this.add.rectangle(0, -2, 10, 14, 0x6b4423).setOrigin(0.5, 1).setStrokeStyle(2, 0x3d2610),
+        this.add.rectangle(0, -12, 38, 18, 0x2f6b2c).setOrigin(0.5, 1).setStrokeStyle(2, 0x1d4a1b),
+        this.add.rectangle(0, -26, 30, 16, 0x3a8236).setOrigin(0.5, 1).setStrokeStyle(2, 0x1d4a1b),
+        this.add.rectangle(0, -40, 20, 14, 0x4a9a44).setOrigin(0.5, 1).setStrokeStyle(2, 0x1d4a1b),
+      ]);
+      sway(tree, 2, 1800 + rand(c, r, 60) * 1400);
+    });
+
+    const FLOWER = [0xff5a7a, 0xffd84a, 0xffffff, 0xc77dff];      // flowers on about 1 grass tile in 10
+    for (let r = 0; r < ROWS; r++) {
+      for (let c = 0; c < COLS; c++) {
+        if (pathTiles.has(c + "," + r) || decorTiles.has(c + "," + r) || rand(c, r, 9) >= 0.1) continue;
+        const f = this.add.container(c * TILE + 10 + rand(c, r, 11) * 28, r * TILE + 14 + rand(c, r, 12) * 28, [
+          this.add.rectangle(0, 0, 2, 7, 0x2e7a2b).setOrigin(0.5, 0),
+          this.add.rectangle(0, 0, 6, 6, FLOWER[Math.floor(rand(c, r, 13) * 4)]),
+        ]);
+        sway(f, 8, 1200 + rand(c, r, 14) * 1200);
+      }
+    }
+
+    const a = center(...WAYPOINTS[0]);                            // the entrance: a portal with two spinning squares
+    this.add.rectangle(a.x, a.y, 40, 40, 0x1b0f2e).setStrokeStyle(3, 0x8a3df0);
+    const p1 = this.add.rectangle(a.x, a.y, 24, 24, 0xc58bff, 0.8);
+    const p2 = this.add.rectangle(a.x, a.y, 24, 24, 0x7a2fd0, 0.8);
+    this.tweens.add({ targets: p1, angle: 360, duration: 3000, repeat: -1 });
+    this.tweens.add({ targets: p2, angle: -360, duration: 2000, repeat: -1 });
+
+    const b = center(...WAYPOINTS[WAYPOINTS.length - 1]);          // the exit: a stone gate with a waving flag
+    this.add.rectangle(b.x, b.y + 2, 40, 36, 0x6c7280).setStrokeStyle(3, 0x3b404a);
+    [-14, 0, 14].forEach((dx) => this.add.rectangle(b.x + dx, b.y - 18, 10, 8, 0x8b92a1).setStrokeStyle(2, 0x3b404a));
+    this.add.rectangle(b.x, b.y + 8, 14, 20, 0x3a2515).setStrokeStyle(2, 0x1c1109);
+    this.add.rectangle(b.x + 6, b.y - 30, 2, 16, 0x3b404a);
+    const flag = this.add.rectangle(b.x + 7, b.y - 34, 12, 8, 0xe5484d).setOrigin(0, 0.5);
+    this.tweens.add({ targets: flag, scaleX: { from: 0.6, to: 1 }, duration: 500, yoyo: true, repeat: -1 });
+
+    for (let i = 0; i < 8; i++) {                                 // fireflies: tiny squares that wander and blink
+      const f = this.add.rectangle(Math.random() * WIDTH, Math.random() * MAP_H, 4, 4, 0xfff3a0).setDepth(4);
+      this.tweens.add({ targets: f, x: Math.random() * WIDTH, y: Math.random() * MAP_H, duration: 6000 + Math.random() * 6000, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
+      this.tweens.add({ targets: f, alpha: { from: 0.15, to: 1 }, duration: 500 + Math.random() * 700, yoyo: true, repeat: -1 });
+    }
+
+    for (let i = 0; i < 3; i++) {                                 // cloud shadows: dark blocks drifting across the map
+      const cloud = this.add.container(-250, 60 + i * 190 + Math.random() * 60, [
+        this.add.rectangle(0, 0, 180, 70, 0x000000, 0.09).setOrigin(0),
+        this.add.rectangle(40, -20, 110, 30, 0x000000, 0.09).setOrigin(0),
+      ]).setDepth(4);
+      this.tweens.add({ targets: cloud, x: WIDTH + 250, duration: 48000, repeat: -1, delay: i * 16000 });
+    }
+  }
+
   // create(): sets up a fresh game. It runs again when the game restarts.
   create() {
-    // Give Phaser the tower pictures (they were prepared before the game started)
-    towerCanvases.forEach((c, i) => { if (c && !this.textures.exists("tower" + i)) this.textures.addCanvas("tower" + i, c); });
+    // Give Phaser the pictures (they were prepared before the game started)
+    for (const name in pictureCanvases) if (!this.textures.exists(name)) this.textures.addCanvas(name, pictureCanvases[name]);
     this.gold = START_GOLD; this.lives = START_LIVES; this.wave = 0; this.now = 0;
     this.enemies = []; this.towers = []; this.bullets = [];     // lists of everything alive on the map
     this.occupied = new Set();                                  // tiles that already have a tower
@@ -238,15 +372,9 @@ class Game extends Phaser.Scene {
     this.selTower = null; this.sellBtn = null; this.sellRect = null;   // tower chosen for selling
     this.mods = { dmg: 1, rate: 1, range: 1, bounty: 1 }; // global upgrade multipliers
 
-    // Map (drawn once): a checkerboard of green tiles, and brown tiles where the path is
-    const map = this.add.graphics();
-    for (let r = 0; r < ROWS; r++) {
-      for (let c = 0; c < COLS; c++) {
-        const color = pathTiles.has(c + "," + r) ? 0x8a7a55 : ((c + r) % 2 ? 0x2a452e : 0x2d4a32);
-        map.fillStyle(color, 1);
-        map.fillRect(c * TILE, r * TILE, TILE, TILE);
-      }
-    }
+    this.drawMap();                                // the ground blocks (drawn once)
+    this.drawDecor();                              // trees, rocks, ponds, flowers and other living things
+
     this.overlay = this.add.graphics();            // hover highlight + range preview
     this.bars = this.add.graphics().setDepth(5);   // health bars
 
@@ -264,11 +392,16 @@ class Game extends Phaser.Scene {
       this.shopIcons.push(this.towerPicture(i, r.x + 26, r.y + 32, 40).setDepth(11));   // the tower picture in the shop
     });
 
-    // The text at the top left: gold, lives, wave and the upgrade bonuses
-    this.hud = this.add.text(8, 6, "", {
-      fontFamily: "monospace", fontSize: "16px", color: "#ffffff",
-      backgroundColor: "#00000099", padding: { x: 6, y: 4 },
-    }).setDepth(10);
+    // The display at the top left: icons with gold, lives and wave, then two small lines of text
+    this.add.rectangle(8, 6, 372, 74, 0x000000, 0.6).setOrigin(0).setDepth(10);
+    const font = { fontFamily: "monospace", fontSize: "18px", color: "#ffffff" };
+    this.iconPicture("gold", 28, 25, 26).setDepth(11);
+    this.hudGold = this.add.text(48, 14, "", font).setDepth(11);
+    this.iconPicture("lives", 148, 25, 26).setDepth(11);
+    this.hudLives = this.add.text(168, 14, "", font).setDepth(11);
+    this.iconPicture("wave", 258, 25, 26).setDepth(11);
+    this.hudWave = this.add.text(278, 14, "", font).setDepth(11);
+    this.hudInfo = this.add.text(16, 42, "", { fontFamily: "monospace", fontSize: "13px", color: "#ffffff", lineSpacing: 3 }).setDepth(11);
     this.updateHud();
 
     // Listen for mouse clicks and key presses
@@ -386,7 +519,7 @@ class Game extends Phaser.Scene {
     const clicked = this.towers.find((tw) => tw.col === c && tw.row === r);
     if (clicked) { this.selectTower(clicked); return; }   // click a tower: offer to sell it
     this.deselect();
-    if (!this.canBuild(c, r)) return;                   // not allowed (path, taken tile or not enough gold)
+    if (!this.canBuild(c, r)) return;                   // not allowed (path, decoration, taken tile or not enough gold)
 
     // Build the chosen tower on this tile
     const t = TOWERS[this.selected];
@@ -419,10 +552,10 @@ class Game extends Phaser.Scene {
   // select(): choose which tower type will be built next.
   select(i) { this.selected = i; this.renderShop(); }
 
-  // canBuild(): true when the tile is on the map, not on the path, not taken, and we have the gold.
+  // canBuild(): true when the tile is on the map, not on the path, not a decoration, not taken, and we have the gold.
   canBuild(c, r) {
     return c >= 0 && c < COLS && r >= 0 && r < ROWS &&
-      !pathTiles.has(c + "," + r) && !this.occupied.has(c + "," + r) &&
+      !pathTiles.has(c + "," + r) && !decorTiles.has(c + "," + r) && !this.occupied.has(c + "," + r) &&
       this.gold >= TOWERS[this.selected].cost;
   }
 
@@ -496,11 +629,12 @@ class Game extends Phaser.Scene {
       const x = x0 + i * (cw + gap);
       this.cardRects.push({ x, y: y0, w: cw, h: ch });   // clickable area of the card
       const card = this.add.rectangle(x, y0, cw, ch, 0x1f2937).setOrigin(0).setStrokeStyle(3, 0x7aa2ff).setDepth(31);
-      const name = this.add.text(x + 16, y0 + 18, `${i + 1}. ${u.name}`,
-        { fontFamily: "monospace", fontSize: "22px", color: "#ffe066", wordWrap: { width: cw - 32 } }).setDepth(32);
-      const desc = this.add.text(x + 16, y0 + 80, u.desc,
-        { fontFamily: "monospace", fontSize: "18px", color: "#ffffff", wordWrap: { width: cw - 32 } }).setDepth(32);
-      this.upgradeObjs.push(card, name, desc);
+      const icon = this.iconPicture(u.icon, x + cw / 2, y0 + 42, 56).setDepth(32);
+      const name = this.add.text(x + cw / 2, y0 + 80, `${i + 1}. ${u.name}`,
+        { fontFamily: "monospace", fontSize: "22px", color: "#ffe066", align: "center", wordWrap: { width: cw - 32 } }).setOrigin(0.5, 0).setDepth(32);
+      const desc = this.add.text(x + cw / 2, y0 + 114, u.desc,
+        { fontFamily: "monospace", fontSize: "17px", color: "#ffffff", align: "center", wordWrap: { width: cw - 32 } }).setOrigin(0.5, 0).setDepth(32);
+      this.upgradeObjs.push(card, icon, name, desc);
     });
   }
 
@@ -719,7 +853,7 @@ class Game extends Phaser.Scene {
     const c = Math.floor(p.x / TILE), r = Math.floor(p.y / TILE);
     if (c < 0 || c >= COLS || r < 0 || r >= ROWS) return;   // the mouse is outside the map
     const t = TOWERS[this.selected];
-    const free = !pathTiles.has(c + "," + r) && !this.occupied.has(c + "," + r);
+    const free = !pathTiles.has(c + "," + r) && !decorTiles.has(c + "," + r) && !this.occupied.has(c + "," + r);
     const ok = free && this.gold >= t.cost;
     this.overlay.fillStyle(ok ? 0x46c36b : 0xe5484d, 0.35);
     this.overlay.fillRect(c * TILE, r * TILE, TILE, TILE);
@@ -759,13 +893,15 @@ class Game extends Phaser.Scene {
     });
   }
 
-  // updateHud(): rewrites the text at the top left (gold, lives, wave, upgrade bonuses).
+  // updateHud(): rewrites the numbers and text at the top left (gold, lives, wave, upgrade bonuses).
   updateHud() {
     const m = this.mods;
     const next = Math.ceil(Math.max(this.wave, 1) / UPGRADE_EVERY) * UPGRADE_EVERY;   // wave of the next upgrade
     const upLine = next < MAX_WAVES ? `Next upgrade after wave ${next}` : `Final wave: defeat the Grand Boss!`;
-    this.hud.setText(
-      `Gold: ${this.gold}   Lives: ${Math.max(this.lives, 0)}   Wave: ${this.wave}/${MAX_WAVES}\n` +
+    this.hudGold.setText(`${this.gold}`);
+    this.hudLives.setText(`${Math.max(this.lives, 0)}`);
+    this.hudWave.setText(`${this.wave}/${MAX_WAVES}`);
+    this.hudInfo.setText(
       upLine + "\n" +
       `Dmg +${Math.round((m.dmg - 1) * 100)}%  Speed +${Math.round((1 / m.rate - 1) * 100)}%  ` +
       `Range +${Math.round((m.range - 1) * 100)}%  Gold +${Math.round((m.bounty - 1) * 100)}%`
@@ -806,10 +942,9 @@ class Game extends Phaser.Scene {
 }
 
 // ======================= Start the game =======================
-// First the tower pictures are prepared, then the Phaser game is created inside
-// the <div id="game"> of play.html.
+// First the pictures are prepared, then the Phaser game is created inside the <div id="game"> of play.html.
 // Phaser.Scale.FIT makes the game shrink or grow to fit the box while keeping its shape.
-loadTowerPictures().then(() => new Phaser.Game({
+loadPictures().then(() => new Phaser.Game({
   type: Phaser.AUTO,                     // use WebGL if possible, otherwise canvas
   width: WIDTH,
   height: HEIGHT,
@@ -818,5 +953,3 @@ loadTowerPictures().then(() => new Phaser.Game({
   scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
   scene: [Game],                         // the list of scenes: we only have one
 }));
-
-
